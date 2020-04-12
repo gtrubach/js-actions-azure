@@ -1,61 +1,44 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node	
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions	
 
-name: CI
+name: CI	
 
-env:
-  NODE_VERSION: 12.x
-  AZURE_WEBAPP_NAME: jsnodedemo
-  AZURE_WEBAPP_PACKAGE_PATH: '.'
+env:	
+  NODE_VERSION: 12.x	
+  AZURE_WEBAPP_NAME: jsnodedemo	
+  AZURE_WEBAPP_PACKAGE_PATH: '.'	
 
-on:
-  push:
-    branches:
-    - master
-    - develop
-    - release/*
-  pull_request:	
-    branches:
-    - develop
+on:	
+  push:	
+    branches:	
+    - master	
+    - develop	
     - release/*	
+  pull_request:		
+    branches:	
+    - develop	
+    - release/*		
 
-jobs:
-  build:
+jobs:	
+  build:	
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest	
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ env.NODE_VERSION }}
-      uses: actions/setup-node@v1
+    steps:	
+    - uses: actions/checkout@v2	
+    - name: Use Node.js ${{ env.NODE_VERSION }}	
+      uses: actions/setup-node@v1	
+      with:	
+        node-version: ${{ env.NODE_VERSION }}	
+    - run: npm install	
+    - run: npm run build --if-present	
+    - run: npm test	
+      env:	
+        CI: true	
+    - name: 'Deploy to Production'	
+      uses: Azure/webapps-deploy@v2
+      if: github.ref == 'refs/heads/master'
       with:
-        node-version: ${{ env.NODE_VERSION }}
-    - run: npm install
-    - run: npm run build --if-present
-    - run: npm test
-      env:
-        CI: true
-    - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: ${{ env.AZURE_WEBAPP_NAME }}
-        path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-
-  deploy:
-    
-    runs-on: ubuntu-latest
-    if: github.ref == 'master'
-    needs: build
-    
-    steps:
-    - name: Download artifact
-      uses: actions/download-artifact@v1.0.0
-      with:
-        name: ${{ env.AZURE_WEBAPP_NAME }}
-        path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-    - name: 'Deploy to Azure WebApp'
-      uses: azure/webapps-deploy@v2
-      with: 
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}	
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}	
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
