@@ -1,0 +1,18 @@
+{
+    "name": "bsu-az3-js-api",
+    "version": "1.0.0",
+    "description": "Sample JS API for lab 3",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "test": "mocha"
+    },
+    "dependencies": {
+        "express": "^4.16.1"
+    },
+    "devDependencies": {
+        "chai": "^4.2.0",
+        "chai-http": "^4.3.0",
+        "mocha": "^7.1.1"
+    }
+}
