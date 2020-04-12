@@ -1,3 +1,3 @@
 # js-actions-azure
 
-![](https://github.com/gtrubach/js-actions-azure/workflows/Build%20CI/badge.svg?branch=master)
+![](https://github.com/gtrubach/js-actions-azure/workflows/Build%20CI/badge.svg)
