@@ -8,11 +8,10 @@ env:
 
 on:
   push:
-    branches: '*'
-  pull_request:
     branches:
-      - develop
-      - release/*
+    - master
+    - develop
+    - release/*
 
 jobs:
   build:
