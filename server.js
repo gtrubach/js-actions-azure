@@ -10,7 +10,7 @@ const HOST = '0.0.0.0';
 const app = express();
 
 app.get('/', (req, res) => {
-    res.send('Hello World111');
+    res.send('Hello World!');
 });
 
 app.get('/api/weatherforecast', (req, res) => {
