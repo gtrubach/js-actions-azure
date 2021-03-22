@@ -8,12 +8,12 @@ chai.use(chaiHttp);
 chai.should()
 
 describe('Main page', function () {
-    it('should return Hello World', function (done) {
+    it('should return Hello World!', function (done) {
         chai.request(app)
             .get('/')
             .end((error, response) => {
                 response.should.have.status(200);
-                response.text.should.equal('Hello World');
+                response.text.should.equal('Hello World!');
                 done();
             });
     });
